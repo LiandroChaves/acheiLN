@@ -1,0 +1,91 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  OWNER
+}
+
+enum Plan {
+  FREE
+  PRO
+  PREMIUM
+}
+
+model User {
+  id        String    @id @default(uuid())
+  name      String
+  email     String    @unique
+  password  String
+  role      Role      @default(OWNER)
+  companies Company[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("users")
+}
+
+model City {
+  id        String    @id @default(uuid())
+  name      String
+  slug      String    @unique
+  companies Company[]
+  createdAt DateTime  @default(now())
+
+  @@map("cities")
+}
+
+model Category {
+  id        String    @id @default(uuid())
+  name      String
+  slug      String    @unique
+  companies Company[]
+  createdAt DateTime  @default(now())
+
+  @@map("categories")
+}
+
+model Company {
+  id           String  @id @default(uuid())
+  name         String
+  description  String?
+  address      String
+  phone        String
+  whatsapp     String?
+  instagram    String?
+  openingHours String?
+  logoUrl      String?
+  isApproved   Boolean @default(false)
+  plan         Plan    @default(FREE)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  cityId String
+  city   City   @relation(fields: [cityId], references: [id])
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  images    CompanyImage[]
+
+  @@map("companies")
+}
+
+model CompanyImage {
+  id        String   @id @default(uuid())
+  imageUrl  String
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@map("company_images")
+}
