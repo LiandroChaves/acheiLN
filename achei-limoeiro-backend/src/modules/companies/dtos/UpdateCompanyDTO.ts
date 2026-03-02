@@ -1,7 +1,11 @@
 export interface UpdateCompanyDTO {
     name?: string;
     description?: string;
-    address?: string;
+    street?: string;
+    number?: string;
+    neighborhood?: string;
+    city_name?: string;
+    state?: string;
     phone?: string;
     whatsapp?: string;
     instagram?: string;

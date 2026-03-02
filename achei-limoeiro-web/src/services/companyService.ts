@@ -7,5 +7,10 @@ export const companyService = {
             params: { cityId, categoryId }
         });
         return response.data;
+    },
+
+    async getById(id: string) {
+        const response = await api.get<Company>(`/companies/${id}`);
+        return response.data;
     }
 };

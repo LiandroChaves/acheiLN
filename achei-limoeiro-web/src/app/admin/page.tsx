@@ -31,10 +31,10 @@ export default function AdminDashboard() {
                 return;
             }
 
-            api.get('/companies?cityId=f0410c86-2993-4be8-bd1c-e123c0e99ea5')
+            // Busca todas as empresas que ainda não foram aprovadas
+            api.get('/companies?approved=false')
                 .then(res => {
-                    const pending = res.data.filter((c: Company) => !c.isApproved);
-                    setPendingCompanies(pending);
+                    setPendingCompanies(res.data);
                 })
                 .catch(err => console.error(err))
                 .finally(() => setLoading(false));

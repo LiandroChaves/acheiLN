@@ -10,14 +10,26 @@ export interface City {
     slug: string;
 }
 
+export interface CompanyImage {
+    id: string;
+    imageUrl: string;
+    companyId: string;
+}
+
 export interface Company {
     id: string;
     name: string;
     description?: string;
-    address: string;
+    address?: string;
+    street: string;
+    number: string;
+    neighborhood: string;
+    city_name: string;
+    state: string;
     phone: string;
     whatsapp?: string;
     instagram?: string;
+    openingHours?: string;
     logoUrl?: string;
     plan: 'FREE' | 'PRO' | 'PREMIUM';
     categoryId: string;
@@ -25,4 +37,5 @@ export interface Company {
     cityId: string;
     city: City;
     isApproved: boolean;
+    images?: CompanyImage[];
 }

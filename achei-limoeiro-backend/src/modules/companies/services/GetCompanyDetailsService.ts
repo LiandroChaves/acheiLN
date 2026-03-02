@@ -7,6 +7,7 @@ class GetCompanyDetailsService {
             include: {
                 category: true,
                 city: true,
+                images: true,
             },
         });
 

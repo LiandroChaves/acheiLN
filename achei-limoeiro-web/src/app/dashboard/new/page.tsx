@@ -12,12 +12,32 @@ export default function NewCompany() {
     const [formData, setFormData] = useState({
         name: '',
         description: '',
-        address: '',
+        street: '',
+        number: '',
+        neighborhood: '',
+        city_name: 'Limoeiro do Norte',
+        state: 'CE',
         phone: '',
         whatsapp: '',
+        instagram: '',
+        openingHours: 'de Segunda a Sexta - 08:00 ás 18:00',
         categoryId: '',
         cityId: 'f0410c86-2993-4be8-bd1c-e123c0e99ea5' // ID de Limoeiro
     });
+
+    const [schedule, setSchedule] = useState({
+        startDay: 'Segunda',
+        endDay: 'Sexta',
+        startTime: '08:00',
+        endTime: '18:00'
+    });
+
+    useEffect(() => {
+        setFormData(prev => ({
+            ...prev,
+            openingHours: `de ${schedule.startDay} a ${schedule.endDay} - ${schedule.startTime} ás ${schedule.endTime}`
+        }));
+    }, [schedule]);
 
     useEffect(() => {
         api.get('/categories').then(response => setCategories(response.data));
@@ -79,21 +99,126 @@ export default function NewCompany() {
                         />
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <label className="block text-sm font-black text-gray-700 uppercase tracking-widest mb-2">Telefone Comercial</label>
+                            <input
+                                className="w-full h-14 px-6 rounded-2xl bg-gray-50 border-2 border-transparent focus:border-primary outline-none transition-all"
+                                placeholder="(88) 3412-0000"
+                                onChange={e => setFormData({ ...formData, phone: e.target.value })}
+                            />
+                        </div>
                         <div>
                             <label className="block text-sm font-black text-gray-700 uppercase tracking-widest mb-2">WhatsApp (com DDD)</label>
                             <input
-                                className="w-full h-14 px-6 rounded-2xl bg-gray-50 border-2 border-transparent focus:border-primary outline-none"
-                                placeholder="88999999999"
+                                className="w-full h-14 px-6 rounded-2xl bg-gray-50 border-2 border-transparent focus:border-primary outline-none transition-all"
+                                placeholder="88988888888"
                                 onChange={e => setFormData({ ...formData, whatsapp: e.target.value })}
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-black text-gray-700 uppercase tracking-widest mb-2">Endereço</label>
+                            <label className="block text-sm font-black text-gray-700 uppercase tracking-widest mb-2">Rua / Avenida</label>
+                            <input
+                                className="w-full h-14 px-6 rounded-2xl bg-gray-50 border-2 border-transparent focus:border-primary outline-none transition-all"
+                                placeholder="Ex: Av. Dom Aureliano Matos"
+                                onChange={e => setFormData({ ...formData, street: e.target.value })}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label className="block text-sm font-black text-gray-700 uppercase tracking-widest mb-2">Instagram (sem @)</label>
+                            <input
+                                className="w-full h-14 px-6 rounded-2xl bg-gray-50 border-2 border-transparent focus:border-primary outline-none transition-all"
+                                placeholder="ex: daltypizzaria"
+                                onChange={e => setFormData({ ...formData, instagram: e.target.value })}
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-black text-gray-700 uppercase tracking-widest mb-4">Horário de Funcionamento</label>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-gray-50 p-6 rounded-[2rem] border-2 border-slate-100/50">
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">De</label>
+                                    <select
+                                        className="w-full h-12 px-4 rounded-xl bg-white border-2 border-transparent focus:border-primary outline-none font-bold text-slate-700 shadow-sm"
+                                        value={schedule.startDay}
+                                        onChange={e => setSchedule({ ...schedule, startDay: e.target.value })}
+                                    >
+                                        {['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'].map(d => (
+                                            <option key={d} value={d}>{d}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Até</label>
+                                    <select
+                                        className="w-full h-12 px-4 rounded-xl bg-white border-2 border-transparent focus:border-primary outline-none font-bold text-slate-700 shadow-sm"
+                                        value={schedule.endDay}
+                                        onChange={e => setSchedule({ ...schedule, endDay: e.target.value })}
+                                    >
+                                        {['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'].map(d => (
+                                            <option key={d} value={d}>{d}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Abertura</label>
+                                    <input
+                                        type="time"
+                                        className="w-full h-12 px-4 rounded-xl bg-white border-2 border-transparent focus:border-primary outline-none font-bold text-slate-700 shadow-sm"
+                                        value={schedule.startTime}
+                                        onChange={e => setSchedule({ ...schedule, startTime: e.target.value })}
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Fechamento</label>
+                                    <input
+                                        type="time"
+                                        className="w-full h-12 px-4 rounded-xl bg-white border-2 border-transparent focus:border-primary outline-none font-bold text-slate-700 shadow-sm"
+                                        value={schedule.endTime}
+                                        onChange={e => setSchedule({ ...schedule, endTime: e.target.value })}
+                                    />
+                                </div>
+                            </div>
+                            <div className="mt-4 px-2">
+                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Visualização:</span>
+                                <span className="ml-2 text-sm font-black text-primary">{formData.openingHours}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <div>
+                            <label className="block text-sm font-black text-gray-700 uppercase tracking-widest mb-2">Número</label>
                             <input
                                 className="w-full h-14 px-6 rounded-2xl bg-gray-50 border-2 border-transparent focus:border-primary outline-none"
-                                placeholder="Rua, Número, Bairro"
-                                onChange={e => setFormData({ ...formData, address: e.target.value })}
+                                placeholder="123"
+                                onChange={e => setFormData({ ...formData, number: e.target.value })}
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-black text-gray-700 uppercase tracking-widest mb-2">Bairro</label>
+                            <input
+                                className="w-full h-14 px-6 rounded-2xl bg-gray-50 border-2 border-transparent focus:border-primary outline-none"
+                                placeholder="Ex: Centro"
+                                onChange={e => setFormData({ ...formData, neighborhood: e.target.value })}
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-black text-gray-700 uppercase tracking-widest mb-2">Cidade</label>
+                            <input
+                                className="w-full h-14 px-6 rounded-2xl bg-gray-50 border-2 border-transparent focus:border-primary outline-none"
+                                value={formData.city_name}
+                                onChange={e => setFormData({ ...formData, city_name: e.target.value })}
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-black text-gray-700 uppercase tracking-widest mb-2">Estado</label>
+                            <input
+                                className="w-full h-14 px-6 rounded-2xl bg-gray-50 border-2 border-transparent focus:border-primary outline-none"
+                                value={formData.state}
+                                onChange={e => setFormData({ ...formData, state: e.target.value })}
                             />
                         </div>
                     </div>

@@ -29,31 +29,65 @@ export function AdminAuthModal({ isOpen, onVerified, onSelectOwner }: AdminAuthM
     }
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            <div className="absolute inset-0 bg-primary/20 backdrop-blur-md" />
-            <div className="relative bg-white w-full max-w-sm rounded-[2.5rem] p-10 shadow-2xl border border-gray-100 text-center">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 sm:p-4">
+            <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm -z-10 animate-in fade-in duration-300" />
+
+            <div className="relative bg-white w-full max-w-sm rounded-[2.5rem] p-10 shadow-2xl border border-slate-100 text-center animate-in fade-in zoom-in slide-in-from-bottom-8 duration-500">
                 {view === 'choice' ? (
                     <>
-                        <h2 className="text-2xl font-black text-gray-900 mb-6 uppercase tracking-tighter">Como deseja se cadastrar?</h2>
+                        <div className="w-20 h-20 bg-primary/10 rounded-3xl flex items-center justify-center mx-auto mb-8 text-4xl">
+                            👋
+                        </div>
+                        <h2 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">Bem-vindo(a)!</h2>
+                        <p className="text-slate-500 font-medium mb-10 leading-relaxed">Como você deseja se identificar no sistema hoje?</p>
+
                         <div className="space-y-4">
-                            <button onClick={() => setView('password')} className="w-full h-14 bg-primary text-white rounded-2xl font-black uppercase tracking-widest hover:scale-[1.02] transition-all">Administrador</button>
-                            <button onClick={onSelectOwner} className="w-full h-14 bg-gray-50 text-gray-400 rounded-2xl font-black uppercase tracking-widest hover:bg-gray-100 transition-all">Proprietário</button>
+                            <button
+                                onClick={() => setView('password')}
+                                className="w-full h-16 bg-primary text-white rounded-2xl font-black shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-0.5 active:scale-95 transition-all uppercase tracking-widest text-sm"
+                            >
+                                Administrador
+                            </button>
+                            <button
+                                onClick={onSelectOwner}
+                                className="w-full h-16 bg-slate-50 text-slate-400 rounded-2xl font-black hover:bg-slate-100 transition-all uppercase tracking-widest text-xs"
+                            >
+                                Proprietário de Empresa
+                            </button>
                         </div>
                     </>
                 ) : (
                     <>
-                        <h2 className="text-2xl font-black text-gray-900 mb-2 uppercase tracking-tighter">Senha de Admin</h2>
-                        <p className="text-gray-400 mb-6 font-medium">Peça a senha para um administrador existente.</p>
+                        <div className="w-20 h-20 bg-secondary/10 rounded-3xl flex items-center justify-center mx-auto mb-8 text-4xl">
+                            🔑
+                        </div>
+                        <h2 className="text-3xl font-black text-slate-900 mb-2 tracking-tight">Privilegiado?</h2>
+                        <p className="text-slate-500 font-medium mb-8 leading-relaxed text-sm">Insira a senha mestra para continuar como administrador.</p>
+
                         <input
                             type="password"
-                            className="w-full h-14 px-6 rounded-2xl bg-gray-50 border-2 border-transparent focus:border-primary outline-none mb-6 text-center text-lg"
+                            className="w-full h-16 px-6 rounded-2xl bg-slate-50 border-2 border-transparent focus:border-primary focus:bg-white outline-none mb-8 text-center text-xl font-bold transition-all"
                             placeholder="••••••••"
                             value={password}
                             onChange={e => setPassword(e.target.value)}
+                            autoFocus
                         />
-                        <div className="flex flex-col gap-3">
-                            <button onClick={handleVerifyPassword} disabled={loading} className="w-full h-14 bg-secondary text-white rounded-2xl font-black uppercase tracking-widest hover:scale-[1.02] transition-all">Verificar</button>
-                            <button onClick={() => setView('choice')} className="text-sm font-bold text-gray-400 hover:text-primary transition-all">Voltar</button>
+
+                        <div className="space-y-4">
+                            <button
+                                onClick={handleVerifyPassword}
+                                disabled={loading}
+                                className="w-full h-16 bg-primary text-white rounded-2xl font-black shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-0.5 active:scale-95 transition-all uppercase tracking-widest text-sm disabled:opacity-50 disabled:pointer-events-none"
+                            >
+                                {loading ? 'Verificando...' : 'Acessar Painel'}
+                            </button>
+
+                            <button
+                                onClick={() => setView('choice')}
+                                className="text-xs font-black text-slate-400 hover:text-primary transition-all uppercase tracking-widest"
+                            >
+                                Voltar para opções
+                            </button>
                         </div>
                     </>
                 )}

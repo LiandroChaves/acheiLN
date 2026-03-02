@@ -12,6 +12,7 @@ import { UpdateCompanyLogoController } from '../controllers/UpdateCompanyLogoCon
 import { ListUserCompaniesController } from '../controllers/ListUserCompaniesController';
 import { UpdateCompanyController } from '../controllers/UpdateCompanyController';
 import { AddCompanyImagesController } from '../controllers/AddCompanyImagesController';
+import { DeleteCompanyImageController } from '../controllers/DeleteCompanyImageController';
 
 const companiesRoutes = Router();
 const upload = multer(uploadConfig);
@@ -25,6 +26,7 @@ const updateCompanyLogoController = new UpdateCompanyLogoController();
 const listUserCompaniesController = new ListUserCompaniesController();
 const updateCompanyController = new UpdateCompanyController();
 const addCompanyImagesController = new AddCompanyImagesController();
+const deleteCompanyImageController = new DeleteCompanyImageController();
 
 // 1. ROTAS PÚBLICAS ESTÁTICAS
 companiesRoutes.get('/', listCompaniesController.handle);
@@ -63,6 +65,11 @@ companiesRoutes.post(
     '/:id/images',
     upload.array('images', 10),
     addCompanyImagesController.handle
+);
+
+companiesRoutes.delete(
+    '/images/:id',
+    deleteCompanyImageController.handle
 );
 
 export { companiesRoutes };
